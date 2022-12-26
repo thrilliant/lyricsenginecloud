@@ -1,0 +1,13 @@
+{
+  "name": "lyrics-app",
+  "version": "1.0.0",
+  "description": "A Node.js app that retrieves lyrics and cover art for a song",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security"
+  }
+}
