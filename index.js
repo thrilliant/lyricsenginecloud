@@ -65,24 +65,29 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
           }
 
           // Get the cover art URL for the first result
-          let coverArtUrl = JSON.parse(body).results[0].artworkUrl100;
+let coverArtUrl = JSON.parse(body).results[0].artworkUrl100;
 
-          // If the iTunes Search API did not return a cover art URL, use the Last.fm API as a backup
-          if (!coverArtUrl) {
-            const options = {
-  hostname: 'ws.audioscrobbler.com',
-  path: `/2.0/?method=track.getInfo&api_key=YOUR_LAST_FM_API_KEY&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&format=json`,
-};
-    url: `http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=YOUR_LAST_FM_API_KEY&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&format=json`,
-    json: true,
-  }, (error, response, body) => {
-    if (error) {
-      console.error(`Error sending request to Last.fm API: ${error.message}`);
-      return;
-    }
+// If the iTunes Search API did not return a cover art URL, use the Last.fm API as a backup
+if (!coverArtUrl) {
+  const options = {
+    hostname: 'ws.audioscrobbler.com',
+    path: `/2.0/?method=track.getInfo&api_key=YOUR_LAST_FM_API_KEY&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&format=json`,
+  };
 
-    // Get the cover art URL from the Last.fm API response
-    coverArtUrl = body.track.album.image[3]['#text'];
+  const req = http.get(options, (res) => {
+    let body = '';
+    res.on('data', (chunk) => {
+      body += chunk;
+    });
+    res.on('end', () => {
+      if (res.statusCode !== 200) {
+        console.error(`Error sending request to Last.fm API: status code ${res.statusCode}`);
+        return;
+      }
+
+      // Get the cover art URL from the Last.fm API response
+      coverArtUrl = body.track.album.image[3]['#text'];
+    });
   });
 }
 
