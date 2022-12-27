@@ -17,15 +17,17 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 		hostname: 'api.genius.com',
 		path: `/search?q=${encodeURIComponent(data)}`,
 		headers: {
-			'Authorization': `Bearer YOUR_ACCESS_TOKEN`,
+			'Authorization': `jwfNX8M9XHX8pec12_C4LFqCuKXCnxw1UFvLRVuMtsbwsYf5lInHVQALG482_V6hQFKY9w6d1WdsaJV42nhAoA`,
 		},
 	};
-
+	console.log(options)
 	const geniusReq = http.get(options, (res) => {
 		let body = '';
 		res.on('data', (chunk) => {
 			body += chunk;
 		});
+
+		// console.log(res)
 		res.on('end', () => {
 			if (res.statusCode !== 200) {
 				console.error(`Error sending request to Genius lyrics API: status code ${res.statusCode}`);
@@ -42,7 +44,7 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 			const artist = song.primary_artist.name;
 
 			// Get the lyrics for the song
-			const lyrics = json.response.song.lyrics;
+			let lyrics = json.response.song.lyrics;
 
 
 			// Send a request to the iTunes Search API to get the cover art for the song
@@ -66,13 +68,13 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 					}
 
 					// Get the cover art URL for the first result
-					let coverArtUrl = JSON.parse(body).results[0].artworkUrl100;
+					coverArtUrl = JSON.parse(body).results[0].artworkUrl100;
 
 					// If the iTunes Search API did not return a cover art URL, use the Last.fm API as a backup
 					if (!coverArtUrl) {
 						const options = {
 							hostname: 'ws.audioscrobbler.com',
-							path: '/2.0/?method=track.getInfo&api_key=YOUR_LAST_FM_API_KEY&artist=' + encodeURIComponent(artist) + '&track=' + encodeURIComponent(title) + '&format=json',
+							path: '/2.0/?method=track.getInfo&api_key=8ca5d3c9bc49e29119b797422f9c9867&artist=' + encodeURIComponent(artist) + '&track=' + encodeURIComponent(title) + '&format=json',
 						};
 
 
@@ -82,26 +84,29 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 								body += chunk;
 							});
 							res.on('end', () => {
-									if (res.statusCode !== 200) {
-											console.error(`Error sending request to Last.fm API: status code ${res.statusCode}`);
-											return;
-										}
-										// Get the cover art URL from the Last.fm API response
-										coverArtUrl = JSON.parse(body).track.album.image[3]['#text'];
-									});
-								});
-							}
-							coverArtUrl = JSON.parse(body).track.album.image[3]['#text'];
-
+								if (res.statusCode !== 200) {
+									console.error(`Error sending request to Last.fm API: status code ${res.statusCode}`);
+									return;
+								}
+								// Get the cover art URL from the Last.fm API response
+								coverArtUrl = JSON.parse(body).track.album.image[3]['#text'];
+							});
 						});
+					} else {
+						coverArtUrl = JSON.parse(body).track.album.image[3]['#text'];
+					}
+					app.get('/', (req, res) => {
+						res.send( `<h1>${title}</h1> <p>by ${artist}</p> <img src="${coverArtUrl}" alt="Cover art for ${title}"> <pre>${lyrics}</pre>` );
 					});
-				} // Render the page with the song information and cover art
-app.get('/', (req, res) => {
-res.send( <h1>${title}</h1> <p>by ${artist}</p> <img src="${coverArtUrl}" alt="Cover art for ${title}"> <pre>${lyrics}</pre> );
-});
 
-// Start the server
-app.listen(3000, () => {
-	console.log('Server listening on port 3000');
-});
+					app.listen(3000, () => {
+						console.log('Server listening on port 3000');
+					});
+
+				});
+			});
+
+		} );
+		// Render the page with the song information and cover art
+	});
 });
