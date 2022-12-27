@@ -1,10 +1,11 @@
 {
-"name": "song-lyrics-app",
-"version": "1.0.0",
-"description": "An app that retrieves lyrics and cover art for a given song",
-"main": "index.js",
-"dependencies": {
-"express": "^4.17.1",
-"http": "0.0.1"
-}
+	"name": "song-lyrics-app",
+	"version": "1.0.0",
+	"description": "An app that retrieves lyrics and cover art for a given song",
+	"main": "index.js",
+	"dependencies": {
+		"express": "^4.17.1",
+		"http": "0.0.1",
+		"https": "^1.0.0"
+	}
 }
