@@ -1,11 +1,18 @@
 {
-	"name": "song-lyrics-app",
-	"version": "1.0.0",
-	"description": "An app that retrieves lyrics and cover art for a given song",
-	"main": "index.js",
-	"dependencies": {
-		"express": "^4.17.1",
-		"http": "0.0.1",
-		"https": "^1.0.0"
-	}
+    "name": "song-lyrics-app",
+    "version": "1.0.0",
+	"engines": {
+    "node": "14.15.0"
+  },
+    "description": "An app that retrieves lyrics and cover art for a given song",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.18.2",
+        "http": "0.0.1-security",
+        "https": "^1.0.0",
+        "genius-lyrics-api": "^3.0.3"
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
 }
