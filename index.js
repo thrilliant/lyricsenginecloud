@@ -17,7 +17,7 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 		hostname: 'api.genius.com',
 		path: `/search?q=${encodeURIComponent(data)}`,
 		headers: {
-			'Authorization': `jwfNX8M9XHX8pec12_C4LFqCuKXCnxw1UFvLRVuMtsbwsYf5lInHVQALG482_V6hQFKY9w6d1WdsaJV42nhAoA`,
+			'Authorization': `9kOFXOZZ_Jhs0ncyetUKfFh8V8jN_uArg36jT47RduIS4Lf1aPtuCwrVLwtpCzEF`,
 		},
 	};
 	console.log(options)
