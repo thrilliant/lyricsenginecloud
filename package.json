@@ -6,13 +6,14 @@
   },
     "description": "An app that retrieves lyrics and cover art for a given song",
     "main": "index.js",
-    "dependencies": {
+	"dependencies": {
         "express": "^4.18.2",
+        "genius-lyrics-api": "^3.0.3",
         "http": "0.0.1-security",
         "https": "^1.0.0",
-        "genius-lyrics-api": "^3.0.3"
-    },
-    "scripts": {
+        "request": "^2.88.2"
+  	  },
+   	 "scripts": {
         "start": "node index.js"
-    }
+   	 }
 }
