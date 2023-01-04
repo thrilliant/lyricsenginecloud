@@ -56,7 +56,7 @@ fs.readFile('./nowplaying.txt', 'utf8', (err, data) => {
 			const artist = song.primary_artist.name;
 
 			const options = {
-				apiKey: 'Mv4TSk9wcnfezwbbnDvZ12uf9ZPwMS1587yEHahvF5tv7C2mgHxnovs9h3u9Uc2D',
+				apiKey: '3VvOfkzd_IS9pppAgBxHJp-haHJ0N3QoxGwU-I8yvtbqhRRPmedlnIRQe6e2Xd8-',
 				title: title,
 				artist: artist,
 				optimizeQuery: true
